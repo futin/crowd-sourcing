@@ -1,0 +1,49 @@
+{
+  "name": "crowd-sourcing",
+  "version": "0.0.1",
+  "description": "Backend implementation of the crowd-sourcing app",
+  "main": "lib/app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start-dev": "DEBUG='crowd-sourcing:*' NODE_ENV=dev nodemon lib/app.js",
+    "start-local": "DEBUG='crowd-sourcing:*' NODE_ENV=local nodemon lib/app.js",
+    "format": "prettier-eslint --write \"lib/**/*.js\"",
+    "lint": "eslint --ignore-path .gitignore .",
+    "lint-fix": "eslint --ignore-path .gitignore --fix ."
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/futin/crowd-sourcing.git"
+  },
+  "author": "Andreja Jevtic <ajevtic@ztech.io>",
+  "license": "UNLICENCED",
+  "bugs": {
+    "url": "https://github.com/futin/crowd-sourcing/issues"
+  },
+  "homepage": "https://github.com/futin/crowd-sourcing#readme",
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "cookie-parser": "^1.4.3",
+    "cookie-session": "^2.0.0-beta.3",
+    "debug": "^3.1.0",
+    "express": "^4.16.3",
+    "express-graphql": "^0.7.1",
+    "findorcreate-promise": "^1.2.0",
+    "graphql": "^14.0.2",
+    "jsonwebtoken": "^8.3.0",
+    "lodash": "^4.17.10",
+    "moment": "^2.22.2",
+    "mongoose": "^5.1.5",
+    "passport": "^0.4.0",
+    "passport-google-oauth": "^1.0.0",
+    "passport-jwt": "^4.0.0",
+    "try-require": "^1.2.1",
+    "yargs": "^12.0.1"
+  },
+  "devDependencies": {
+    "eslint": "^4.19.1",
+    "eslint-config-oniyi": "^5.1.0",
+    "nodemon": "^1.17.5",
+    "prettier-eslint-cli": "^4.7.1"
+  }
+}
