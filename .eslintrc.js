@@ -18,6 +18,9 @@ module.exports = {
         extensions: ['.js','.json']
       }
     }
+  },
+  rules: {
+    'implicit-arrow-linebreak': 0,
   }
   // overrides: [
   //   {
