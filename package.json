@@ -30,6 +30,7 @@
     "express-graphql": "^0.7.1",
     "findorcreate-promise": "^1.2.0",
     "graphql": "^14.0.2",
+    "graphql-resolvers": "^0.2.2",
     "jsonwebtoken": "^8.3.0",
     "lodash": "^4.17.10",
     "module-alias": "^2.1.0",
@@ -51,8 +52,7 @@
   },
   "_moduleAliases": {
     "@config": "lib/config",
-    "@db-models": "lib/database/models",
-    "@graphql-models": "lib/graphql/models",
+    "@databases": "lib/databases",
     "@utils": "lib/utils",
     "@services": "lib/services"
   }

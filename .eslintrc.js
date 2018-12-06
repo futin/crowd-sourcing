@@ -11,8 +11,7 @@ module.exports = {
       alias: {
         map: [
           ['@config', './lib/config'],
-          ['@db-models', './lib/database/models'],
-          ['@graphql-models', './lib/graphql/models'],
+          ['@databases', './lib/databases'],
           ['@utils', './lib/utils'],
           ['@services', './lib/services'],
         ],
