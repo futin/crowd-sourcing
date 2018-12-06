@@ -1,0 +1,66 @@
+############################## AuthUser #############################
+
+###### add auth user #####
+
+# mutation {
+#   addAuthUser(username: "test") {
+#     username
+#   }
+# }
+
+###### get all auth users #####
+
+# {
+#   authUsers {
+#     username
+#   }
+# }
+
+###### get single auth user #####
+
+# {
+#   authUser(username: "test") {
+#     username
+#   }
+# }
+
+###### delete auth user #####
+
+# mutation {
+#   deleteAuthUser(username: "mzivic2")
+# }
+
+############################## Category #############################
+
+###### add category #####
+
+# mutation {
+#   addCategory(name: "Machine", description: "This is a machine!!") {
+#     name
+#   }
+# }
+
+###### get all categoryes #####
+
+# {
+#   categories {
+#     name,
+#     description
+#   }
+# }
+
+###### get single category #####
+
+# {
+#   category(name: "Machine") {
+#     name,
+#     description
+#   }
+# }
+
+###### delete category #####
+
+# mutation {
+#   deleteCategory(name: "Machine")
+# }
+
