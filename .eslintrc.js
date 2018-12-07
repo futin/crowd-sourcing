@@ -21,6 +21,7 @@ module.exports = {
   },
   rules: {
     'implicit-arrow-linebreak': 0,
+    'max-len': ['error', { code: 120 }],
   }
   // overrides: [
   //   {
