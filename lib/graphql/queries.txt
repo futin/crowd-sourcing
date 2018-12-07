@@ -6,15 +6,16 @@
 
 # mutation {
 #   addNomination(
-#     nominatedById: "5c09991b1765d8348cf68f47"
-#     nomineeId: "5c09991b1765d8348cf68f47",
-#     categoryId: "5c09b0512243e41524da55ab",
-#     numberOfPoints: 10
+#     nominatedById: "5c0a87c0e4db031dbbf7f2c6"
+#     # nominatedById: "5c0a87c0e4db031dbbf7f2c6"
+#     nomineeId: "5c0a87c0e4db031dbbf7f2c6",
+#     categoryId: "5c0aa07f1d0aa01f3c16f8d5",
+#     numberOfPoints: 6
 #   ){
 #     nominatedById,
 #     nomineeId,
 #     categoryId,
-#     date,
+#     createdAt,
 #     numberOfPoints
 #   }
 # }
@@ -25,19 +26,22 @@
 
 # {
 #   fullNominations {
+#     id,
 #     nominatedBy {
-#       id
+#       id,
 #     	fullName,
 #       username
 #     }
 #     nominee {
+#       id,
 #     	fullName,
 #       username
 #     }
 #     category  {
+#       id,
 #     	name,
 #     }
-#     date,
+#     createdAt,
 #     numberOfPoints
 #   }
 # }
@@ -59,7 +63,7 @@
 ###### add auth user #####
 
 # mutation {
-#   addAuthUser(username: "test") {
+#   addAuthUser(username: "mzivic") {
 #     username
 #   }
 # }
@@ -92,7 +96,7 @@
 ###### add category #####
 
 # mutation {
-#   addCategory(name: "Machine", description: "This is a machine!!") {
+#   addCategory(name: "Mom", description: "This is a my.. well... mom") {
 #     name
 #   }
 # }
@@ -101,6 +105,7 @@
 
 # {
 #   categories {
+#     id,
 #     name,
 #     description
 #   }
@@ -129,11 +134,11 @@
 
 # mutation {
 #   addUser(
-#     username: "boza",
-#     email:"boza@noob",
+#     username: "mzivic",
+#     email:"mzivic@ztech.io",
 #     input: {
 #       role: "user",
-#       fullName: "Boza Nob",
+#       fullName: "Milan Zivic",
 #     }){
 #     username,
 #     email,
@@ -164,13 +169,13 @@
 
 # {
 #   users {
+#     id,
 #     username,
 #     email,
 #     role,
 #     fullName
 #   }
 # }
-
 
 ###### get single Zilker user (by email or username) #####
 
@@ -187,6 +192,7 @@
 
 # {
 #   activeUser {
+#     id,
 #     username,
 #     email,
 #     role,
