@@ -183,6 +183,18 @@
 #   }
 # }
 
+###### get current (active) Zilker user #####
+
+# {
+#   activeUser {
+#     username,
+#     email,
+#     role,
+#     fullName
+
+#   }
+# }
+
 ############ Delete ############
 
 ###### delete Zilker user (by email or username) #####
