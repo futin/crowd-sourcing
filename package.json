@@ -30,6 +30,7 @@
     "express-graphql": "^0.7.1",
     "findorcreate-promise": "^1.2.0",
     "graphql": "^14.0.2",
+    "graphql-iso-date": "^3.6.1",
     "graphql-resolvers": "^0.2.2",
     "jsonwebtoken": "^8.3.0",
     "lodash": "^4.17.10",
