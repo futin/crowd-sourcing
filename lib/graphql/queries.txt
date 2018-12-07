@@ -21,13 +21,34 @@
 
 ############ Fetch ############
 
-###### get all nominations #####
+###### get list of full nominations #####
+
+# {
+#   fullNominations {
+#     nominatedBy {
+#       id
+#     	fullName,
+#       username
+#     }
+#     nominee {
+#     	fullName,
+#       username
+#     }
+#     category  {
+#     	name,
+#     }
+#     date,
+#     numberOfPoints
+#   }
+# }
+
+###### get list of nominations #####
 
 # {
 #   nominations {
-#     nominatedById,
-#     nomineeId,
-#     categoryId,
+#     nominatedById
+#     nomineeId
+#     categoryId
 #     date,
 #     numberOfPoints
 #   }
@@ -47,6 +68,7 @@
 
 # {
 #   authUsers {
+#     id
 #     username
 #   }
 # }
