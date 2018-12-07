@@ -1,3 +1,38 @@
+############################## Nomination #############################
+
+############ Insert/Update ############
+
+###### add nomination #####
+
+# mutation {
+#   addNomination(
+#     nominatedById: "5c09991b1765d8348cf68f47"
+#     nomineeId: "5c09991b1765d8348cf68f47",
+#     categoryId: "5c09b0512243e41524da55ab",
+#     numberOfPoints: 10
+#   ){
+#     nominatedById,
+#     nomineeId,
+#     categoryId,
+#     date,
+#     numberOfPoints
+#   }
+# }
+
+############ Fetch ############
+
+###### get all nominations #####
+
+# {
+#   nominations {
+#     nominatedById,
+#     nomineeId,
+#     categoryId,
+#     date,
+#     numberOfPoints
+#   }
+# }
+
 ############################## AuthUser #############################
 
 ###### add auth user #####
