@@ -53,7 +53,7 @@
 #     nominatedById
 #     nomineeId
 #     categoryId
-#     date,
+#     createdAt,
 #     numberOfPoints
 #   }
 # }
