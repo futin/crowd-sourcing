@@ -6,17 +6,16 @@
 
 # mutation {
 #   addNomination(
-#     nominatedById: "5c0a87c0e4db031dbbf7f2c6"
-#     # nominatedById: "5c0a87c0e4db031dbbf7f2c6"
-#     nomineeId: "5c0a87c0e4db031dbbf7f2c6",
-#     categoryId: "5c0aa07f1d0aa01f3c16f8d5",
-#     numberOfPoints: 6
+#     nominatedById: "5c09991b1765d8348cf68f47"
+#     nominees: [{
+#     	categoryId: "5c09b0512243e41524da55ab",
+#       userId: "5c09991b1765d8348cf68f47",
+#       numberOfPoints: 10,
+#     }],
 #   ){
 #     nominatedById,
-#     nomineeId,
-#     categoryId,
 #     createdAt,
-#     numberOfPoints
+#     nomineeIds
 #   }
 # }
 
@@ -27,23 +26,32 @@
 # {
 #   fullNominations {
 #     id,
+#     createdAt,
 #     nominatedBy {
 #       id,
 #     	fullName,
 #       username
-#     }
-#     nominee {
+#     },
+#     nominees {
 #       id,
-#     	fullName,
-#       username
-#     }
-#     category  {
-#       id,
-#     	name,
-#     }
-#     createdAt,
-#     numberOfPoints
-#   }
+#       category{
+#         id,
+#         name
+#       },
+#       user {
+#         id,
+#         username,
+#         fullName
+#       },
+#         # got some circular depenency here! how awesome is that!
+#       nomination {
+#         createdAt,
+#         nominees {
+#           id
+#         }
+#       }
+#   	}
+# 	}
 # }
 
 ###### get list of nominations #####
@@ -51,10 +59,48 @@
 # {
 #   nominations {
 #     nominatedById
-#     nomineeId
-#     categoryId
+#     nomineeIds,
 #     createdAt,
-#     numberOfPoints
+#   }
+# }
+
+############################## Nominee #############################
+
+###### fetch single nominee #####
+
+# {
+#   nominee(id: "5c0ae50baf9f2477e73a6b44") {
+#     id
+#     category {
+#       name
+#     }
+#     user {
+#       username
+#     }
+#     nomination {
+#       id
+#     }
+#   }
+# }
+
+###### fetch all nominees (by categoryId or userId) #####
+
+# {
+#   nominees(
+#     categoryId: "5c09b0512243e41524da55ab") {
+#     id
+#     category {
+#       id,
+#       name
+#     }
+#     user {
+#       id,
+#       username
+#     }
+#     nomination {
+#       id,
+#       createdAt
+#     }
 #   }
 # }
 
