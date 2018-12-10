@@ -20,6 +20,14 @@ $ npm install
 
 This will install all of the required dependencies, as stated in `package.json`file.
 
+To start the server, run:
+
+```sh
+$ npm run start-dev
+```
+
+which will start `nodemon` server in DEV mode.
+
 ## How to use
 
 There are couple of steps required to start with this project.
@@ -179,3 +187,9 @@ Every route that starts with `/api/*` is being secure. In order to make auth req
 `Authorization: Bearer {jwt_token}`
 
 within the request header. That's it!
+
+
+## GraphQL Queries
+
+> upcoming... For start, look at ./lib/graphql/queries.txt
+
