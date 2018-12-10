@@ -4,12 +4,16 @@
   "description": "Backend implementation of the crowd-sourcing app",
   "main": "lib/app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
     "start-dev": "DEBUG='crowd-sourcing:*' NODE_ENV=dev nodemon lib/app.js",
     "start-local": "DEBUG='crowd-sourcing:*' NODE_ENV=local nodemon lib/app.js",
     "format": "prettier-eslint --write \"lib/**/*.js\"",
     "lint": "eslint --ignore-path .gitignore .",
-    "lint-fix": "eslint --ignore-path .gitignore --fix ."
+    "lint-fix": "eslint --ignore-path .gitignore --fix .",
+    "drop-db": "mongo ./lib/databases/mongodb/scripts/drop-databases.js",
+    "insert-users-db": "NODE_ENV=dev node ./lib/databases/mongodb/scripts/insert-users.js",
+    "insert-categories-db": "NODE_ENV=dev node ./lib/databases/mongodb/scripts/insert-categories.js",
+    "insert-nomination-db": "NODE_ENV=dev node ./lib/databases/mongodb/scripts/insert-nomination.js",
+    "insert-all-db": "NODE_ENV=dev npm run insert-users-db && npm run insert-categories-db && npm run insert-nomination-db"
   },
   "repository": {
     "type": "git",
