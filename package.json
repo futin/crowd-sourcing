@@ -4,6 +4,7 @@
   "description": "Backend implementation of the crowd-sourcing app",
   "main": "lib/app.js",
   "scripts": {
+    "start": "nodemon lib/app.js",
     "start-dev": "DEBUG='crowd-sourcing:*' NODE_ENV=dev nodemon lib/app.js",
     "start-local": "DEBUG='crowd-sourcing:*' NODE_ENV=local nodemon lib/app.js",
     "format": "prettier-eslint --write \"lib/**/*.js\"",
