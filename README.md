@@ -129,5 +129,53 @@ Nominee is the only model that can't be created manually, since it relies on its
 Nominee(s) get created automatically after successful Nomination creation, where the referencing also happens.
 
 
+## Authorization
 
 
+This app is authorized on couple of levels. Lets go over each one of them.
+
+
+### Passport Google API
+
+
+Currently, the only way to pass the authentication process is by logging in via Google API.
+
+In order to initiate to Google Login sequence, hit `http://host:port/auth/google`. This will pop-up the default Google Mail UI.
+
+Once the account has been selected and password provided, our server handles the callback response. Our server relies completely on the Google API service to provide valid user credentials.
+
+
+### Email validation
+
+
+Once the [previous step](#Passport Google API) has passed successfully, server starts validation the email address.
+
+    1. Email address has to be of certain domain (provided by the environment configuration)
+    2. Other part of email (a.k.a. username) is being validated by the AuthUser model
+    
+If any of these steps fail, server automatically logs-out user with corresponding error message.
+
+If the `domain` is incorrect, that means that unauthenticated user is trying to access the app.
+If the `username` is invalid, it means that user has valid authentication but it is not authorized to proceed.
+
+Latter usually means contacting the `admin` and requesting permission to access the app.
+
+
+### JWT Access token
+
+
+Even though the user is authorized to use the app, the access token has to be issued before any further action.
+
+App uses Passport JWT token for authorization, and it can be acquired **ONLY** by the authorized user.  
+
+In order to acquire access token, make next http request: `http://host:port/auth/token`.
+
+In the response, caller can obtain access token and use it to make authorized API calls towards GraphQL routes.
+
+### Authorized http request
+
+Every route that starts with `/api/*` is being secure. In order to make auth request, please provide:
+
+`Authorization: Bearer {jwt_token}`
+
+within the request header. That's it!
