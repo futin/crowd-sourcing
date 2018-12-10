@@ -193,3 +193,6 @@ within the request header. That's it!
 
 > upcoming... For start, look at ./lib/graphql/queries.txt
 
+## Notes on Code Style
+
+> upcoming
