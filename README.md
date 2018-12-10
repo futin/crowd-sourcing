@@ -67,7 +67,7 @@ Username can be compiled by removing email domain from an actual email address.
 
 The idea behind this app: 
 
-Each [user](#User) gets certain points (usually 10) and can assign it to **other** users.
+Each [User](#User) gets certain points (usually 10) and can assign it to **other** users.
 
 This is achieved by creating [Nominations](#Nomination).
 
