@@ -172,11 +172,11 @@
 #   deleteCategory(name: "Machine")
 # }
 
-############################## Zilker user #############################
+############################## user #############################
 
 ############ Insert/Update ############
 
-###### add Zilker user #####
+###### add user #####
 
 # mutation {
 #   addUser(
@@ -193,7 +193,7 @@
 #   }
 # }
 
-###### update Zilker user (by email or username) #####
+###### update user (by email or username) #####
 
 # mutation {
 #   updateUser(
@@ -211,7 +211,7 @@
 
 ############ Fetch ############
 
-###### get all Zilker user #####
+###### get all user #####
 
 # {
 #   users {
@@ -223,7 +223,7 @@
 #   }
 # }
 
-###### get single Zilker user (by email or username) #####
+###### get single user (by email or username) #####
 
 # {
 #   user(email: "boza@noob") {
@@ -234,7 +234,7 @@
 #   }
 # }
 
-###### get current (active) Zilker user #####
+###### get current (active) user #####
 
 # {
 #   activeUser {
@@ -249,7 +249,7 @@
 
 ############ Delete ############
 
-###### delete Zilker user (by email or username) #####
+###### delete user (by email or username) #####
 
 # mutation {
 #   deleteUser(email: "boza@noob")
