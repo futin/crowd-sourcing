@@ -5,7 +5,6 @@
   "main": "lib/app.js",
   "scripts": {
     "start": "npm run run-rs && npm run start-dev",
-    "mongodb-replicas": "run-rs -v 4.0.0 --keep --quiet",
     "start-dev": "DEBUG='crowd-sourcing:*' NODE_ENV=dev nodemon lib/app.js",
     "start-local": "DEBUG='crowd-sourcing:*' NODE_ENV=local nodemon lib/app.js",
     "format": "prettier-eslint --write \"lib/**/*.js\"",
@@ -47,8 +46,8 @@
     "passport": "^0.4.0",
     "passport-google-oauth": "^1.0.0",
     "passport-jwt": "^4.0.0",
-    "run-rs": "^0.4.0",
-    "try-require": "^1.2.1"
+    "try-require": "^1.2.1",
+    "yargs": "^12.0.5"
   },
   "devDependencies": {
     "eslint": "^4.19.1",
