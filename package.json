@@ -4,13 +4,14 @@
   "description": "Backend implementation of the crowd-sourcing app",
   "main": "lib/app.js",
   "scripts": {
-    "start": "nodemon lib/app.js",
+    "start": "npm run run-rs && npm run start-dev",
     "start-dev": "DEBUG='crowd-sourcing:*' NODE_ENV=dev nodemon lib/app.js",
     "start-local": "DEBUG='crowd-sourcing:*' NODE_ENV=local nodemon lib/app.js",
     "format": "prettier-eslint --write \"lib/**/*.js\"",
     "lint": "eslint --ignore-path .gitignore .",
     "lint-fix": "eslint --ignore-path .gitignore --fix .",
     "drop-db": "mongo ./lib/databases/mongodb/scripts/drop-databases.js",
+    "admin": "mongo ./lib/databases/mongodb/scripts/set-feature-compatibility-db.js",
     "insert-users-db": "NODE_ENV=dev node ./lib/databases/mongodb/scripts/insert-users.js",
     "insert-categories-db": "NODE_ENV=dev node ./lib/databases/mongodb/scripts/insert-categories.js",
     "insert-nomination-db": "NODE_ENV=dev node ./lib/databases/mongodb/scripts/insert-nomination.js",
@@ -41,12 +42,12 @@
     "lodash": "^4.17.10",
     "module-alias": "^2.1.0",
     "moment": "^2.22.2",
-    "mongoose": "^5.1.5",
+    "mongoose": "^5.3.2",
     "passport": "^0.4.0",
     "passport-google-oauth": "^1.0.0",
     "passport-jwt": "^4.0.0",
     "try-require": "^1.2.1",
-    "yargs": "^12.0.1"
+    "yargs": "^12.0.5"
   },
   "devDependencies": {
     "eslint": "^4.19.1",
