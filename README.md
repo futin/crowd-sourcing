@@ -32,17 +32,25 @@ which will start `nodemon` server in DEV mode.
 
 There are couple of steps required to start with this project.
 
-### Install mongodb
+### Install mongodb replicas
 
-In order to start playing around, it is required for mongodb to run locally.
+Since [Transactions](https://docs.mongodb.com/manual/core/transactions/) are bing used in this project, it is required to setup local [mongodb replicas](https://docs.mongodb.com/manual/replication/).
 
-Install it based on your OS.
+And in order to use Transactions/Replication logic, it is required to have at least 4.0 mongodb version. Please install latest one.
 
-### Install any GraphiQL GUI
+Then, run this script:
 
-This is not required, but since every API request is authenticated, it is necessary to provide Authorization Header 
-for every GraphQL API call. And this is not possible with basic browser graphiql GUI, since there is no option
-to add request header.
+```sh
+npm run add-mongo-replica-cluster
+```
+
+Basically, this script will create new directory, which will hold the server instances locally. 
+
+It is configured to listed on ports 27017, 27018 and 27019, and replica set name is "crowd-source".
+
+Script will spawn these instances in the background and call the [rs.initiate()](https://docs.mongodb.com/manual/reference/method/rs.initiate/), which will set the id and members required to access the replica set(s).
+
+Afterwards, the server can start running.
 
 ### Mongodb scripts
 
@@ -60,6 +68,13 @@ This script is doing logical insertion in the mongodb. Script for creation of no
 Make sure to include `custom_user_name` with your valid username! 
 
 Username can be compiled by removing email domain from an actual email address. 
+
+
+### Install any GraphiQL GUI
+
+This is not required, but since every API request is authenticated, it is necessary to provide Authorization Header 
+for every GraphQL API call. And this is not possible with basic browser graphiql GUI, since there is no option
+to add request header.
 
 
 ## The idea
@@ -99,9 +114,11 @@ Important notes:
 
     1. It is automatically created upon successful authorization
     2. It comes with 2 roles: admin and user
-    3. Admin - can perform CRUD operations on AuthUser model, remove other users etc
-    4. User - can update it's own profile, create nominations, fetch other nominations etc
-    5. User can issue nominations, or be a Nominee - user nominated by some other user.
+         - admin: can perform CRUD operations on AuthUser model, remove other users etc
+         - user: can update it's own profile, create nominations, fetch other nominations etc
+    3. User can issue nominations, or be a Nominee - nominated by some other user.
+    4. Each month user receives new set of points to assign. Points are appended to already existing points.
+    5. When Nomination is being created, User's pointsToAssign are being reduced by each nominee point.
     
 
 ### Category
@@ -119,10 +136,19 @@ Important notes:
 
     1. While submitting the Nomination, user can select 1-10 other nominees to nominate.
     2. For each nominee, user that is nominating must select:
-        2.1. Number of points (1-N), where N is total number of points that each user gets every month
+        2.1. Number of points (1-N), where N is total number of points that each user gets every month.
         2.2. Category, which explains why this nominee was choosen.
     3. Every Nominaiton gets a timestamp upon creation.
-    4. Every Nomination, once created, has a reference to its nominees
+    4. Every Nomination, once created, has a reference to its nominees.
+
+Creation restrictions:
+    
+    1. Total number of given points must not exceed User's pointsToAssign.
+    2. Provided points must be a positive integer.
+    3. The same user can't be nominated twice on the same Nomination.
+    4. User can't nominate him-self.
+    5. User is allowed to make a single Nomination per month. 
+    6. User is allowed to update Nomination for the current month.
     
 
 ### Nominee
