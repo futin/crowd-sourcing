@@ -136,6 +136,5 @@ modules.xml
 .idea/misc.xml
 *.ipr
 
-
 # database data
-data
+mongodb-replicas
