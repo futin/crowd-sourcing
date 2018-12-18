@@ -168,6 +168,15 @@
 #   }
 # }
 
+###### update category by name #####
+
+# mutation {
+#   updateCategory(name: "Mom", description: "This is a my.. well... mom") {
+#     name,
+#     description
+#   }
+# }
+
 ###### get all categoryes #####
 
 # {
