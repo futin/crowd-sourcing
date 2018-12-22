@@ -4,12 +4,19 @@
   "description": "Backend implementation of the crowd-sourcing app",
   "main": "lib/app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "npm run run-rs && npm run start-dev",
     "start-dev": "DEBUG='crowd-sourcing:*' NODE_ENV=dev nodemon lib/app.js",
     "start-local": "DEBUG='crowd-sourcing:*' NODE_ENV=local nodemon lib/app.js",
     "format": "prettier-eslint --write \"lib/**/*.js\"",
     "lint": "eslint --ignore-path .gitignore .",
-    "lint-fix": "eslint --ignore-path .gitignore --fix ."
+    "lint-fix": "eslint --ignore-path .gitignore --fix .",
+    "drop-db": "mongo ./lib/databases/mongodb/scripts/drop-databases.js",
+    "drop-replicas": "rm -rf mongodb-replicas",
+    "insert-users-db": "NODE_ENV=dev node ./lib/databases/mongodb/scripts/insert-users.js",
+    "insert-categories-db": "NODE_ENV=dev node ./lib/databases/mongodb/scripts/insert-categories.js",
+    "insert-nomination-db": "NODE_ENV=dev node ./lib/databases/mongodb/scripts/insert-nomination.js",
+    "insert-all-db": "NODE_ENV=dev npm run insert-users-db && npm run insert-categories-db && npm run insert-nomination-db",
+    "add-mongo-replica-cluster": "./lib/databases/mongodb/scripts/add-mongo-replica-cluster.sh"
   },
   "repository": {
     "type": "git",
@@ -30,20 +37,31 @@
     "express-graphql": "^0.7.1",
     "findorcreate-promise": "^1.2.0",
     "graphql": "^14.0.2",
-    "jsonwebtoken": "^8.3.0",
+    "graphql-iso-date": "^3.6.1",
+    "graphql-resolvers": "^0.2.2",
+    "jsonwebtoken": "^8.4.0",
     "lodash": "^4.17.10",
+    "module-alias": "^2.1.0",
     "moment": "^2.22.2",
-    "mongoose": "^5.1.5",
+    "mongoose": "^5.3.2",
     "passport": "^0.4.0",
     "passport-google-oauth": "^1.0.0",
     "passport-jwt": "^4.0.0",
     "try-require": "^1.2.1",
-    "yargs": "^12.0.1"
+    "yargs": "^12.0.5"
   },
   "devDependencies": {
     "eslint": "^4.19.1",
-    "eslint-config-oniyi": "^5.1.0",
+    "eslint-config-airbnb-base": "^13.1.0",
+    "eslint-import-resolver-alias": "^1.1.1",
+    "eslint-plugin-import": "^2.14.0",
     "nodemon": "^1.17.5",
     "prettier-eslint-cli": "^4.7.1"
+  },
+  "_moduleAliases": {
+    "@config": "lib/config",
+    "@databases": "lib/databases",
+    "@utils": "lib/utils",
+    "@services": "lib/services"
   }
 }

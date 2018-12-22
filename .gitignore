@@ -136,5 +136,5 @@ modules.xml
 .idea/misc.xml
 *.ipr
 
-
-# End of https://www.gitignore.io/api/node,webstorm+all,visualstudiocode
+# database data
+mongodb-replicas

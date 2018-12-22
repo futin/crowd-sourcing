@@ -1,0 +1,314 @@
+############################## Nomination #############################
+
+############ Insert/Update ############
+
+###### add nomination #####
+
+# mutation {
+#   addNomination(
+#     nominees: [
+# 		{
+#     	categoryId: "5c17ea5a42f47f2980732077",
+#       userId: "5c17ea9fbf3e6d298324a865",
+#       numberOfPoints: 10,
+#     }
+# 	],
+#   ){
+#     nominatedById,
+#     createdAt,
+#     nomineeIds
+#   }
+# }
+
+###### update nomination #####
+
+# mutation {
+#   updateNomination(
+#     nomionationId: "5c13a689066bfe687e6dbdb5"
+#     nominees: [
+# 		{
+#     	categoryId: "5c0e6e320ca2400c2c807781",
+#       userId: "5c13a5ca5c9dbe685b96c2d7",
+#       numberOfPoints: 2,
+#     },
+# 		{
+#     	categoryId: "5c0e6e320ca2400c2c807781",
+#       userId: "5c13a5ca5c9dbe685b96c2d7",
+#       numberOfPoints: 2,
+#     }
+# 	],
+#   ){
+#     nominatedById,
+#     createdAt,
+#     nomineeIds
+#   }
+# }
+
+###### get list of full nominations #####
+
+# {
+#   fullNominations {
+#     id,
+#     createdAt,
+#     nominatedBy {
+#       id,
+#     	fullName,
+#       username
+#     },
+#     nominees {
+#       id,
+#       category{
+#         id,
+#         name
+#       },
+#       user {
+#         id,
+#         username,
+#         fullName
+#       },
+#         # got some circular depenency here! how awesome is that!
+#       nomination {
+#         createdAt
+#       }
+#   	}
+# 	}
+# }
+
+###### get list of nominations #####
+
+# {
+#   nominations {
+#     id,
+#     nominatedById
+#     nomineeIds,
+#     createdAt,
+#   }
+# }
+
+############################## Nominee #############################
+
+###### fetch single nominee #####
+
+# {
+#   nominee(id: "5c0ae50baf9f2477e73a6b44") {
+#     id
+#     category {
+#       name
+#     }
+#     user {
+#       username
+#     }
+#     nomination {
+#       id
+#     }
+#   }
+# }
+
+###### fetch all nominees (by categoryId or userId) #####
+
+# {
+#   nominees(
+#     categoryId: "5c09b0512243e41524da55ab") {
+#     id
+#     category {
+#       id,
+#       name
+#     }
+#     user {
+#       id,
+#       username
+#     }
+#     nomination {
+#       id,
+#       createdAt
+#     }
+#   }
+# }
+
+############################## AuthUser #############################
+
+###### add auth user #####
+
+# mutation {
+#   addAuthUser(username: "mzivic") {
+#     username
+#   }
+# }
+
+###### get all auth users #####
+
+# {
+#   authUsers {
+#     id
+#     username
+#   }
+# }
+
+###### get single auth user #####
+
+# {
+#   authUser(username: "test") {
+#     username
+#   }
+# }
+
+###### delete auth user #####
+
+# mutation {
+#   deleteAuthUser(username: "mzivic2")
+# }
+
+############################## Category #############################
+
+###### add category #####
+
+# mutation {
+#   addCategory(name: "Mom", description: "This is a my.. well... mom") {
+#     name
+#   }
+# }
+
+###### update category by name #####
+
+# mutation {
+#   updateCategory(name: "Mom", description: "This is a my.. well... mom") {
+#     name,
+#     description
+#   }
+# }
+
+###### get all categoryes #####
+
+# {
+#   categories {
+#     id,
+#     name,
+#     description
+#   }
+# }
+
+###### get single category #####
+
+# {
+#   category(name: "Machine") {
+#     name,
+#     description
+#   }
+# }
+
+###### delete category #####
+
+# mutation {
+#   deleteCategory(name: "Machine")
+# }
+
+############################## user #############################
+
+############ Insert/Update ############
+
+###### add Zilker user #####
+
+# mutation {
+#   addUser(
+#     username: "mzivic",
+#     email:"mzivic2@ztech.io",
+#     input: {
+#       role: "user",
+#       fullName: "Milan Zivic",
+#       pointsToAssign: 10,
+#     }){
+#     username,
+#     email,
+#     role,
+#     fullName,
+#     pointsToAssign
+#   }
+# }
+
+###### update Zilker user (by email or username) #####
+
+# mutation {
+#   updateUser(
+#     email: "mzivic@ztech.io",
+#     fullName: "Andreja Jevtic",
+#     imageUrl:"test"
+#     ){
+#     username,
+#     email,
+#     role,
+#     fullName
+#   }
+# }
+
+###### update Zilker user advance (by email or username) #####
+
+# mutation {
+#   updateUserAdvance(
+#     email: "ajevtic@ztech.io",
+#     isActive: false,
+#   ) {
+#     username,
+#     email,
+#     role,
+#     fullName,
+#     imageUrl,
+#     isActive
+#   }
+# }
+
+############ Fetch ############
+
+###### get all Zilker user #####
+
+# {
+#   users {
+#     id,
+#     username,
+#     email,
+#     role,
+#     fullName,
+#     isActive,
+#     imageUrl
+#   }
+# }
+
+###### get single Zilker user (by email or username) #####
+
+# {
+#   user(email: "ajevtic@ztech.io") {
+#     username,
+#     email,
+#     role,
+#     fullName,
+#     isActive,
+#     imageUrl
+#   }
+# }
+
+###### get current Zilker user #####
+
+# {
+#   currentUser {
+#     id,
+#     username,
+#     email,
+#     role,
+#     fullName,
+#     isActive,
+#     imageUrl
+#   }
+# }
+
+###### get active users #####
+
+# {
+#   activeUsers {
+#     id,
+#     username,
+#     email,
+#     role,
+#     fullName,
+#     isActive,
+#     imageUrl
+#   }
+# }
