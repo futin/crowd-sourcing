@@ -6,7 +6,7 @@
   "scripts": {
     "start": "npm run run-rs && npm run start-dev",
     "start-dev": "DEBUG='crowd-sourcing:*' NODE_ENV=dev nodemon lib/app.js",
-    "start-local": "DEBUG='crowd-sourcing:*' NODE_ENV=local nodemon lib/app.js",
+    "start-local": "DEBUG='crowd-sourcing:*' NODE_ENV=local node lib/app.js",
     "format": "prettier-eslint --write \"lib/**/*.js\"",
     "lint": "eslint --ignore-path .gitignore .",
     "lint-fix": "eslint --ignore-path .gitignore --fix .",
