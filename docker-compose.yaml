@@ -6,6 +6,8 @@ services:
       - "3001:3001"
     environment:
       - MONGO_SERVERS=mongo-rs0-1:27017,mongo-rs0-2:27017,mongo-rs0-3:27017
+      - DEBUG=crowd-sourcing:*
+      - NODE_ENV=local
 #    volumes:
 #      - ./lib:/lib
     networks:
