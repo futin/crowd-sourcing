@@ -1,7 +1,8 @@
-version: '3'
+version: '3.5'
 services:
   mongo-rs0-1:
     image: "mongo-start"
+    container_name: mongo-rs0-1
     build: ./mongo-rs0-1
     ports:
       - "27017:27017"
@@ -10,28 +11,43 @@ services:
     depends_on:
       - "mongo-rs0-2"
       - "mongo-rs0-3"
+    networks:
+      - app_net
   mongo-rs0-2:
     image: "mongo"
+    container_name: mongo-rs0-2
     command: --replSet rs0 --smallfiles --oplogSize 128
     ports:
       - "27018:27017"
     volumes:
       - ./mongo-rs0-2/data:/data/db
+    networks:
+      - app_net
   mongo-rs0-3:
     image: "mongo"
+    container_name: mongo-rs0-3
     command: --replSet rs0 --smallfiles --oplogSize 128
     ports:
       - "27019:27017"
     volumes:
       - ./mongo-rs0-3/data:/data/db
-  setup-rs:
-    image: "setup-rs"
+    networks:
+      - app_net
+  mongo-rs-setup:
+    image: "mongo-rs-setup"
     build: ./setup
     depends_on:
       - "mongo-rs0-1"
-  adminmongo:
+    networks:
+      - app_net
+  mongo-admin:
     image: "mrvautin/adminmongo"
     environment:
-      - HOST=192.168.1.183
+      - HOST=0.0.0.0
     ports:
       - "1234:1234"
+    networks:
+      - app_net
+networks:
+  app_net:
+    name: app_net

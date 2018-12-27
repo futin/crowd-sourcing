@@ -1,49 +1,24 @@
 version: '3'
 services:
-  mongo-rs0-1:
-    image: "mongo-start"
-    container_name: mongo-rs0-1
-    build: ./docker/mongo-rs0-1
-    ports:
-      - "27017:27017"
-    volumes:
-      - ./docker/mongo-rs0-1/data:/data/db
-    depends_on:
-      - "mongo-rs0-2"
-      - "mongo-rs0-3"
-  mongo-rs0-2:
-    image: "mongo"
-    container_name: mongo-rs0-2
-    command: --replSet rs0 --smallfiles --oplogSize 128
-    ports:
-      - "27018:27017"
-    volumes:
-      - ./docker/mongo-rs0-2/data:/data/db
-  mongo-rs0-3:
-    image: "mongo"
-    container_name: mongo-rs0-3
-    command: --replSet rs0 --smallfiles --oplogSize 128
-    ports:
-      - "27019:27017"
-    volumes:
-      - ./docker/mongo-rs0-3/data:/data/db
-  setup-rs:
-    image: "setup-rs"
-    build: ./docker/setup
-    depends_on:
-      - "mongo-rs0-1"
-  adminmongo:
-    image: "mrvautin/adminmongo"
-    environment:
-      - HOST=0.0.0.0
-    ports:
-      - "1234:1234"
-  app:
+  server:
     build: .
     ports:
       - "3001:3001"
     environment:
-      - NODE_ENV=local
       - MONGO_SERVERS=mongo-rs0-1:27017,mongo-rs0-2:27017,mongo-rs0-3:27017
-    depends_on:
-      - "setup-rs"
+#    volumes:
+#      - ./lib:/lib
+    networks:
+      - app_net
+  nginx:
+    restart: always
+    build: ./nginx
+    ports:
+      - "80:80"
+      - "443:443"
+    networks:
+      - app_net
+networks:
+  app_net:
+    external:
+      name: app_net

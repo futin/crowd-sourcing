@@ -11,6 +11,8 @@ COPY package.json ./
 RUN npm install
 # If you are building your code for production
 # RUN npm install --only=production
+RUN apt-get update
+RUN apt-get install -y vim
 
 # Bundle app source
 COPY README.md ./

@@ -8,5 +8,4 @@ const rsConf = {
 };
 
 rs.initiate(rsConf);
-
 rs.conf();
