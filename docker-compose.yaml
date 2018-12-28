@@ -1,15 +1,15 @@
 version: '3'
 services:
   ##
-  # NodeJs "local" server configuration, with custom environment variables
+  # NodeJs "dev" server configuration, with custom environment variables
   ##
-  server-local:
+  server-dev:
     restart: always
     build: .
     environment:
       - MONGO_SERVERS=mongo-rs0-1:27017,mongo-rs0-2:27017,mongo-rs0-3:27017
       - DEBUG=crowd-sourcing:*
-      - NODE_ENV=local
+      - NODE_ENV=dev
     ports:
       - "3001"
     volumes:
