@@ -112,21 +112,199 @@ Ok, the fun part! Setting up docker was quite a challenge, I'll try to make the 
 
 We'll go through the setup in stages, where each stage explains part of the Docker setup.
 
-#### Cleanup - start
 
 #### Install Docker
 
+Make sure to have docker Dameon installed globally. It depends on your OS, so please check the instructions on how to install it [here](https://docs.docker.com/install/).
+
+#### Cleanup
+
+If you have used [Local](#Local setup) before, we need to perform certain cleanup tasks.
+
+First, check if there are any running mongodb instances:
+
+```sh
+ps -ef | grep mongod
+```
+
+This snippet will basically fetch all mongod running servers. If there are any, kill them all!
+
+```sh
+killall mongod
+```
+
+If you just need to start fresh, first make sure that there are no docker containers running.
+
+```sh
+docker ps
+```
+
+In order to remove running containers, you can use:
+
+```sh
+docker rm -f $(docker ps -a -q)
+```
+
+This will forcefully remove all docker containers (both running and non-running).
+
+For removing stale images, run:
+
+```sh
+docker rmi $(docker images -q)
+```
+
+This will remove all docker images the are stored locally on your machine.
+
+Now that we have a clean/fresh repository, jump to [Docker-compose startup](#Docker compose startup) if you are not interested in next section (architecture).
+
 #### Docker architecture
 
-#### Docker-compose startup
+
+
+#### Docker compose startup
+
+Before we dive in, if you are not familiar with docker-compose logic, please check the [official documentation](https://docs.docker.com/compose/).
+
+Basically, docker-compose lets you combine multiple Docker containers under the same network, so they can easily communicate with each other.
+
+This project uses multiple docker-compose files in order to separate the concerns, and to split the database/server instances.
+
+Docker compose also allows you to spawn multiple instances of the same service, which is explained in more details in [Server](#Server) stage.
+
+##### Docker-compose operations
+
+Some of the operations you will use to setup the containers:
+
+```sh
+docker-compose up
+```
+
+This is the first script that is always being run. It spawns the services defined in the docker-compose.yaml file.
+
+It should be always run from a directory where the docker-compose.yaml file resides. Otherwise... it won't work...
+
+Documentation can be found [here](https://docs.docker.com/compose/reference/up/).
+
+```sh
+docker-compose down
+```
+
+This operation is called when it is required to kill and remove all the containers created by the docker-compose.yaml file.
+
+Documentation can be found [here](https://docs.docker.com/compose/reference/down/).
+
+
+```sh
+docker-compose restart
+```
+
+This operation is called when it is required to restart all the containers created by the docker-compose.yaml file.
+
+Documentation can be found [here](https://docs.docker.com/compose/reference/restart/).
+
+
+```sh
+docker-compose build
+```
+
+This operation is called when it is required to re-build the images (usually when there is some change that should be applied to new services).
+
+However, this will not start the containers automatically. In order to do that, use:
+
+```sh
+docker-compose up --build
+```
+
+The awesome thing about docker-compose is that you can also do partial building/starting/re-starting docker containers. Simply use the service name with any of the previously described operations:
+
+```sh
+docker-compose up --build {serviceName}
+```
+
+One more very important operation which you will use a lot is:
+
+```sh
+docker exec -it {containerId | containerName} bash
+```
+
+If you need to enter the running container and check the logs, or run some scripts (example can be found in [Server](#Server)), you use this operation.
+
+That's it. There are plenty more operations that docker/docker-compose provide, which is not intention of this documentation.
+
 
 ##### Mongo-db
 
+First, go directly to mongodb directory that has the docker-compose.yaml file:
+```sh
+cd docker/mongo-db
+```
+
+If you look into the docker-compose.yaml file, you will find multiple services. Lets start with the most simple ones.
+
+###### mongo
+ 
+Services mongo-rs0-2 and mongo-rs0-3 are built upon "mongo". They are exposed on port "27017" and can be only accessed within their network.
+
+The reason behind this is to permit any direct entries from the external source. The only services that can enter these instances should be are one created within the same network!
+
+Other containers can easily access them connecting to "mongodb://mongo-rs0-{id}:27017". This is why both of them have unique names (container_name).
+
+###### mongo-start
+
+The service name of this image is "mongo-rs0-1" since it is basically on the same level as previously described instances.
+
+The only difference is that this container is built with the custom Docker file that load the configuration file.
+
+###### mongo-rs-setup
+
+This container starts at the same time as other services, except it's responsability is to:
+
+    1. load the setup.sh script
+    2. setup.sh script wait for certain amount of time (sleeping) for mongodb replicas to setup
+    3. once mongodb replicas are set, configure them with rs.initiate() and rs.conf();
+    4. exit
+    
+Once done, this container can be terminated, since it's job is done.
+
+###### mongo-admin
+
+This is the mongo administrator app which is used to directly communicate with mongodb instances. It server is run on port "1234", and can be accessed by host machine thorough port defined in docker-compose.yaml file (currently port "9000")
+
+Since it belong to the same network as other mongodb instances, it can access them easily.
+
+###### networks
+
+This is a custom network used to combine multiple docker-compose.yaml files. Without it, each docker-compose gets assigned to default network, and services from other docker-compose files can only access them through public ports.
+
+For example, since we are not publicly exposing any mongodb instance/container, our server would not be able to make a connection which would crash the server.
+
+
+That's it. Now, in order to start the mongodb instances, simply run:
+
+```sh
+docker-compose up -d
+```
+
+And in couple of seconds all instances should be set. Use "-d" options to run the services in the background.
+
+In order to verify that the mongodb instances have been setup correctly, run `mongo` to start the mongo shell.
+
+Then run `rs.status()` which should give you detailed information about each mongodb instance, and if replica is primary or secondary.
+
+More info on replicas can be found [here](https://docs.mongodb.com/manual/replication/).
+
+Additionally, you can run `docker ps` to see all the running docker containers, with details such as `id` and `containerName` which can be used to access the container and inspect it.
+
 ##### Server
+
+
 
 ##### Ngnix
 
+
+
 #### Cleanup - end
+
 
 ### Install any GraphiQL GUI
 
