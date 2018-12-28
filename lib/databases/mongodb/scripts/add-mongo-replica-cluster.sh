@@ -6,7 +6,7 @@ dbDir="`dirname '$0'`/mongodb-replicas"
 logName="mongo.log"
 
 ports=(27017 27018 27019)
-rsName="crowd-source"
+rsName="rs0"
 host="localhost"
 
 # store the replica set initiation process in variable, as string
