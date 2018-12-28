@@ -25,4 +25,4 @@ RUN apt-get update && apt-get install -y mongodb-org
 COPY README.md ./
 COPY lib ./lib
 
-CMD [ "npm", "run", "start-local" ]
+CMD [ "npm", "run", "start" ]
