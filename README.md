@@ -8,7 +8,7 @@
     - GraphQL
     - MongoDB
     - Passport Google Auth
-    - Docker (upcoming)
+    - Docker
 
 ## Install
 
@@ -30,13 +30,21 @@ which will start `nodemon` server in DEV mode.
 
 ## How to use
 
-There are couple of steps required to start with this project.
+There are couple of ways to configure this project. Setup can be done [locally](#Local setup) or via [docker images](#Docker setup).
 
-### Install mongodb replicas
+
+### Local setup
+
+
+The purpose of this step is to setup the development for those who are not comfortable working with Docker. Otherwise skip this section and go directly to [Docker setup](#Docker setup).
+
+
+#### Install mongodb replicas
+
 
 Since [Transactions](https://docs.mongodb.com/manual/core/transactions/) are bing used in this project, it is required to setup local [mongodb replicas](https://docs.mongodb.com/manual/replication/).
 
-And in order to use Transactions/Replication logic, it is required to have at least 4.0 mongodb version. Please install latest one.
+And in order to use Transactions/Replication logic, it is required to have at least 4.0 mongodb version installed globally. Install guide can be found [here](https://docs.mongodb.com/manual/installation/). 
 
 Then, run this script:
 
@@ -46,13 +54,24 @@ npm run add-mongo-replica-cluster
 
 Basically, this script will create new directory, which will hold the server instances locally. 
 
-It is configured to listed on ports 27017, 27018 and 27019, and replica set name is "crowd-source".
+It is configured to listed on ports 27017, 27018 and 27019, and replica set name is "rs0".
 
 Script will spawn these instances in the background and call the [rs.initiate()](https://docs.mongodb.com/manual/reference/method/rs.initiate/), which will set the id and members required to access the replica set(s).
 
-Afterwards, the server can start running.
+Afterwards, you can run the server with next script:
 
-### Mongodb scripts
+```sh
+npm run start-local
+```
+
+This script will start the server and will connect to mongodb replica set cluster automatically.
+
+**Notes**
+
+- Make sure to use only NODE_ENV=local in local environment setup, because other environments are configured for docker images
+- Before starting the server for the first time, let mongodb configure replica set properly (it requires between 10-15 seconds)
+
+#### Mongodb scripts
 
 There are multiple scripts created for the starter purpose. The goal was to speed up the testing, and to have a 
 better understanding of how the model instances actually look like in the database.
@@ -61,13 +80,28 @@ better understanding of how the model instances actually look like in the databa
 
 Use this script:
 
-`USERNAME_INSERT=custom_user_name npm run insert-all-db`
+```sh
+USERNAME_INSERT=custom_user_name npm run insert-all-db
+```
 
 This script is doing logical insertion in the mongodb. Script for creation of nomination instance should be created last.
 
-Make sure to include `custom_user_name` with your valid username! 
+Make sure to include `custom_user_name` with your valid username, which will insert user and auth user with provided username!
 
-Username can be compiled by removing email domain from an actual email address. 
+Username is then compiled by removing email domain from an actual email address.
+
+There are other scripts that can be called:
+
+```sh
+USERNAME_INSERT=custom_user_name npm run insert-users-db
+npm run insert-categories-db
+npm run insert-nomination-db
+npm run drop-db
+```
+
+Be careful with "drop-db" script. It will drop all collections for the current environment.
+
+### Docker setup
 
 
 ### Install any GraphiQL GUI

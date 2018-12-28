@@ -5,8 +5,8 @@
   "main": "lib/app.js",
   "scripts": {
     "start": "node lib/app.js",
-    "start-dev": "DEBUG='crowd-sourcing:*' NODE_ENV=dev nodemon lib/app.js",
-    "start-local": "DEBUG='crowd-sourcing:*' NODE_ENV=local MONGO_SERVERS=mongo-rs0-1:27017,mongo-rs0-2:27017,mongo-rs0-3:27017 node lib/app.js",
+    "start-dev": "DEBUG='crowd-sourcing:*' NODE_ENV=dev node lib/app.js",
+    "start-local": "DEBUG='crowd-sourcing:*' NODE_ENV=local nodemon lib/app.js",
     "format": "prettier-eslint --write \"lib/**/*.js\"",
     "lint": "eslint --ignore-path .gitignore .",
     "lint-fix": "eslint --ignore-path .gitignore --fix .",
