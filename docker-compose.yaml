@@ -1,0 +1,49 @@
+version: '3'
+services:
+  ##
+  # NodeJs "local" server configuration, with custom environment variables
+  ##
+  server-local:
+    restart: always
+    build: .
+    environment:
+      - MONGO_SERVERS=mongo-rs0-1:27017,mongo-rs0-2:27017,mongo-rs0-3:27017
+      - DEBUG=crowd-sourcing:*
+      - NODE_ENV=local
+    ports:
+      - "3001"
+    volumes:
+      - ./lib:/usr/src/app/lib
+    networks:
+      - app_net
+  ##
+  # NodeJs "prod" server configuration, with custom environment variables
+  ##
+  server-prod:
+    restart: always
+    build: .
+    environment:
+      - MONGO_SERVERS=mongo-rs0-1:27017,mongo-rs0-2:27017,mongo-rs0-3:27017
+      - DEBUG=crowd-sourcing:*
+      - NODE_ENV=prod
+    ports:
+      - "5000"
+    volumes:
+      - ./lib:/usr/src/app/lib
+    networks:
+      - app_net
+  nginx:
+    restart: always
+    build: ./docker/nginx
+    ports:
+      - "80:80"
+      - "443:443"
+    networks:
+      - app_net
+##
+# The network app_net has been previously created
+##
+networks:
+  app_net:
+    external:
+      name: app_net
