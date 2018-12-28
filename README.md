@@ -99,10 +99,34 @@ npm run insert-nomination-db
 npm run drop-db
 ```
 
-Be careful with "drop-db" script. It will drop all collections for the current environment.
+**Notes**
+
+- Be careful with "drop-db" script. It will drop all collections for the current environment.
+- Always re-run the server once the collections are dropped. This will ensure that indexes are setup correctly.
+
 
 ### Docker setup
 
+
+Ok, the fun part! Setting up docker was quite a challenge, I'll try to make the process of setup easier as much as possible in this step.
+
+We'll go through the setup in stages, where each stage explains part of the Docker setup.
+
+#### Cleanup - start
+
+#### Install Docker
+
+#### Docker architecture
+
+#### Docker-compose startup
+
+##### Mongo-db
+
+##### Server
+
+##### Ngnix
+
+#### Cleanup - end
 
 ### Install any GraphiQL GUI
 
