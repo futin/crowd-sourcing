@@ -19,7 +19,7 @@ services:
     volumes:
       - ./lib:/usr/src/app/lib
     networks:
-      - app_net
+      - crowd_sourcing_net
   ##
   # NodeJs "prod" server configuration, with custom environment variables
   ##
@@ -35,7 +35,7 @@ services:
 #    volumes:
 #      - ./lib:/usr/src/app/lib
 #    networks:
-#      - app_net
+#      - crowd_sourcing_net
   ##
   # Nginx server, listening on port 80 and handling load-balancing and forwarding http requests.
   ##
@@ -49,11 +49,11 @@ services:
       - "80:80"
       - "443:443"
     networks:
-      - app_net
+      - crowd_sourcing_net
 ##
-# The network app_net has been previously created
+# The network crowd_sourcing_net has been previously created
 ##
 networks:
-  app_net:
+  crowd_sourcing_net:
     external:
-      name: app_net
+      name: crowd_sourcing_net

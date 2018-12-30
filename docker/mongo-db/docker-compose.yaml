@@ -15,7 +15,7 @@ services:
       - "mongo-rs0-2"
       - "mongo-rs0-3"
     networks:
-      - app_net
+      - crowd_sourcing_net
   mongo-rs0-2:
     image: "mongo"
     container_name: mongo-rs0-2
@@ -25,7 +25,7 @@ services:
     volumes:
       - ./mongo-rs0-2/data:/data/db
     networks:
-      - app_net
+      - crowd_sourcing_net
   mongo-rs0-3:
     image: "mongo"
     container_name: mongo-rs0-3
@@ -35,7 +35,7 @@ services:
     volumes:
       - ./mongo-rs0-3/data:/data/db
     networks:
-      - app_net
+      - crowd_sourcing_net
   ##
   # Create temp container which will setup the replica set configuration after the mongodb containers are up
   # and running.
@@ -46,7 +46,7 @@ services:
     depends_on:
       - "mongo-rs0-1"
     networks:
-      - app_net
+      - crowd_sourcing_net
   ##
   # Virtual mongo administrator, used to access the mongo-replica instances
   ##
@@ -57,11 +57,11 @@ services:
     ports:
       - "9000:1234"
     networks:
-      - app_net
+      - crowd_sourcing_net
 ##
 # Custom network, used to connect multiple docker-compose files and make all services
 # run under same network
 ##
 networks:
-  app_net:
-    name: app_net
+  crowd_sourcing_net:
+    name: crowd_sourcing_net

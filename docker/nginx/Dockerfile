@@ -14,7 +14,13 @@ MAINTAINER Andreja Jevtic
 RUN apt-get update
 
 # Install necessary tools
-RUN apt-get install -y vim wget net-tools curl nginx
+RUN apt-get install -y \
+    vim \
+    wget \
+    net-tools \
+    curl \
+    nginx \
+    inetutils-ping
 
 # Set the custom nginx.conf file
 COPY nginx.conf /etc/nginx/
