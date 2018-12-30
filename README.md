@@ -155,7 +155,7 @@ docker rmi $(docker images -q)
 
 This will remove all docker images the are stored locally on your machine.
 
-Now that we have a clean/fresh repository, jump to [Docker-compose startup](#Docker compose startup) if you are not interested in next section (architecture).
+Now that we have a clean/fresh repository, jump to [Docker-compose startup](#Docker-compose-startup) if you are not interested in next section (architecture).
 
 #### Docker architecture
 
@@ -403,13 +403,15 @@ docker ps
 docker images
 ```
 
-These should be empty now. Additionally, you can remove volumes created by mongodb services:
+These should be empty now. Additionally, you can remove volumes created by mongodb services and prune obsolete images:
 
 ```sh
 docker volume rm $(docker volume ls -q)
+docker image prune
 ```
 
-This will remove all volumes that are left after removing the corresponding containers. It will not remove the one that are being used.
+First command will remove all volumes that are left after removing the corresponding containers. It will not remove the one that are being used.
+Latter will remove stale/unused images
 
 That's it, now everything is clean and we can start all over again!
 
