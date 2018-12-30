@@ -1,16 +1,3 @@
-#  Crowd Sourcing
-
-> a backend implementation of a crowd-sourcing app
-
-## Technology stack
-
-    - NodeJs
-    - GraphQL
-    - MongoDB
-    - Passport Google Auth
-    - Docker
-    - Nginx
-
 Table of Contents
 =================
 
@@ -50,9 +37,27 @@ Table of Contents
          * [JWT Access token](#jwt-access-token)
          * [Authorized http request](#authorized-http-request)
       * [GraphQL Queries](#graphql-queries)
-      * [Notes on Code Style](#notes-on-code-style)
+      * [Code Style](#code-style)
+         * [File template](#file-template)
+         * [File structure](#file-structure)
+         * [Comments](#comments)
+         * [Alias modules](#alias-modules)
+         * [Eslint rules](#eslint-rules)
 
-Provided by an awesome script [gh-md-toc](https://github.com/ekalinin/github-markdown-toc)
+TOC powered by an awesome script - [gh-md-toc](https://github.com/ekalinin/github-markdown-toc)
+
+#  Crowd Sourcing
+
+> a backend implementation of a crowd-sourcing app
+
+## Technology stack
+
+    - NodeJs
+    - GraphQL
+    - MongoDB
+    - Passport Google Auth
+    - Docker
+    - Nginx
 
 ## Install
 
@@ -608,6 +613,102 @@ within the request header. That's it!
 
 > upcoming... For start, look at ./lib/graphql/queries.txt
 
-## Notes on Code Style
+## Code Style
 
-> upcoming
+> Some general notes on Code Style used for this project
+
+### File template
+
+Each file should have the same template design:
+
+```js
+// node core modules
+
+// 3rd party modules
+
+// internal alias modules
+
+// internal modules
+```
+
+This way developers can easily distinguish the difference between imported libraries and local files.
+
+Code modules are any modules provided natively be Node: `fs, util, http, https, os` etc.
+
+Third party modules are any modules that were installed by `npm` package, and can be found in dependencies/devDependencies of package.json.
+
+[Alias modules](#Alias-modules) explanation can be found in the section below.
+
+Internal modules can be any custom built script, but not the one used by [alias modules](#Alias-modules) logic.
+
+### File structure
+
+Each directory should have a single link to outer world - `index.js`. This file can load any other file within the same directory, but should expose/export only objects/methods, not all of it.
+
+If file becomes big enough (around 300 lines of code), refactoring must be applied and file should be split into smalled chunks. This improves code re-usability, readability and unit testing.
+
+### Comments
+
+Try adding comments describing WHY something was done (if not obvious), and now WHAT the code is doing (which is usually obvious). For e.x.
+
+```js
+/* BAD COMMENT */
+
+// mapping an array of items to items' id
+const listOfIds = items.map(item => item.id);
+
+/* GOOD COMMENT */
+
+// use list of ids to make a database query
+const listOfIds = items.map(item => item.id);
+``` 
+
+As for methods, it is required to explain WHAT the code does (any WHY... optionally) by using JsDoc standard:
+
+```js
+
+/**
+* Short method description, what is method suppose to do.
+* 
+* Optional:
+*           - Explain in more details why it was built and what problem it solves.
+*           - Are there any open issues regarding some of the libraries used by this method? If so, post a link.
+*           - Add usage example. Simple input-output should be enough.
+* 
+* @param {String} id        Parameter description.
+* @param {Object} model     Parameter description.
+* @returns {*}              What does method returns ?
+*/
+const notSoComplexMethod = (id, model) => model[id];
+```
+
+### Alias modules
+
+The idea behind alias modules is to reduce the relative path import statements, which can be huge. For e.x.
+
+```js
+// old way
+const someModuleFarFarAway = require('../../../../../../../utils');
+
+// alias way
+const someModuleFarFarAway = require('@utils');
+```
+
+Spot a huge difference ?
+
+One npm module made this possible, [module-alias](https://www.npmjs.com/package/module-alias). Documentation regarding implementation can be found there as well.
+
+Basically, all we have to do is update package.json file by adding _`moduleAliases` at root level, and update `.eslintrc.js` to let our linter know that we know what we are doing with the imports/requirements.
+
+### Eslint rules
+
+This project uses `eslint-config-airbnb-base` as a styleguide base. 
+
+Additionally, I strongly suggest calling the formatting script before every PR.
+
+```sh
+npm run format
+```
+
+This script invokes (prettier-eslint)[https://www.npmjs.com/package/prettier-eslint], which re-formats the whole code base by applying lint rules stated in `eslintrc.js`, and perform `fix` operation as well.
+
