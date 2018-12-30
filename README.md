@@ -155,19 +155,25 @@ docker rmi $(docker images -q)
 
 This will remove all docker images the are stored locally on your machine.
 
-Now that we have a clean/fresh repository, jump to [Docker-compose startup](#Docker-compose-startup) if you are not interested in next section (architecture).
+Now that we have a clean/fresh repository, jump to [Docker-compose startup](#Docker-compose-startup) if you are not interested in next section ([Docker architecture](#Docker-architecture)).
 
 #### Docker architecture
 
+This project uses multiple docker-compose files in order to separate the concerns, and to split the spawning of database/server instances.
 
+First one can be found in `docker/mongo-db` directory, and explanation of each service can be found in [Mongo db](#Mongo-db) section.
+
+Latter resides in root directory, and it's explanation is mixed in [Server](#Server) and [Nginx](#Nginx) sections.
+
+Since every docker-compose file binds it's services to a default bridged network, I had to create new custom network which every service will be bound to (check [networks](#networks) section).
+
+This way, even though services belong in different docker-compose files, they act as if they were in the same file.
 
 #### Docker compose startup
 
 Before we dive in, if you are not familiar with docker-compose logic, please check the [official documentation](https://docs.docker.com/compose/).
 
 Basically, docker-compose lets you combine multiple Docker containers under the same network, so they can easily communicate with each other.
-
-This project uses multiple docker-compose files in order to separate the concerns, and to split the database/server instances.
 
 Docker compose also allows you to spawn multiple instances of the same service, which is explained in more details in [Server](#Server) stage.
 
@@ -249,6 +255,10 @@ Services mongo-rs0-2 and mongo-rs0-3 are built upon "mongo". They are exposed on
 The reason behind this is to permit any direct entries from the external source. The only services that can enter these instances should be are one created within the same network!
 
 Other containers can easily access them connecting to "mongodb://mongo-rs0-{id}:27017". This is why both of them have unique names (container_name).
+
+All mongo containers have `volumes`, which is basically binding the data created within a mongo container with host machine, so server can access it.
+
+More info on volumes can be found [here](https://docs.docker.com/storage/volumes/).
 
 ###### mongo-start
 
@@ -384,7 +394,7 @@ This command will delete all containers. The command `docker ps -a -q` will retu
 
 If you want to remove only stopped containers, call previous line without `-f` option.
 
-More info can be found [here](https://docs.docker.com/engine/reference/commandline/rm/)
+Documentation can be found [here](https://docs.docker.com/engine/reference/commandline/rm/)
 
 Then, remove all images:
 
@@ -394,7 +404,7 @@ docker rmi -f $(docker images -q)
 
 This command will delete all images. The command `docker images -q` will return all existing images IDs and pass them to the rm command which will delete them.
 
-More info can be found [here](https://docs.docker.com/engine/reference/commandline/rmi)
+Documentation can be found [here](https://docs.docker.com/engine/reference/commandline/rmi)
 
 Now make sure that you got what you wanted, by running:
 
