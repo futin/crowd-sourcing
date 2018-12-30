@@ -720,5 +720,5 @@ Additionally, I strongly suggest calling the formatting script before every PR.
 npm run format
 ```
 
-This script invokes (prettier-eslint)[https://www.npmjs.com/package/prettier-eslint], which re-formats the whole code base by applying lint rules stated in `eslintrc.js`, and perform `fix` operation as well.
+This script invokes [prettier-eslint](https://www.npmjs.com/package/prettier-eslint), which re-formats the whole code base by applying lint rules stated in `eslintrc.js`, and perform `fix` operation as well.
 
