@@ -30,13 +30,13 @@ which will start `nodemon` server in DEV mode.
 
 ## How to use
 
-There are couple of ways to configure this project. Setup can be done [locally](#Local setup) or via [docker images](#Docker setup).
+There are couple of ways to configure this project. Setup can be done [locally](#Local-setup) or via [docker images](#Docker-setup).
 
 
 ### Local setup
 
 
-The purpose of this step is to setup the development for those who are not comfortable working with Docker. Otherwise skip this section and go directly to [Docker setup](#Docker setup).
+The purpose of this step is to setup the development for those who are not comfortable working with Docker. Otherwise skip this section and go directly to [Docker setup](#Docker-setup).
 
 
 #### Install mongodb replicas
@@ -119,7 +119,7 @@ Make sure to have docker Dameon installed globally. It depends on your OS, so pl
 
 #### Cleanup
 
-If you have used [Local](#Local setup) before, we need to perform certain cleanup tasks.
+If you have used [Local](#Local-setup) before, we need to perform certain cleanup tasks.
 
 First, check if there are any running mongodb instances:
 
@@ -323,7 +323,7 @@ docker-compose up -d --scale server-dev=5
 
 Of course, this would mean that you would have to manually hit each server with corresponding port. For local testing, spawning a single server is enough.
 
-The only requirement before starting the `server-dev` container is to have [mongodb containers](#Mongo db) already running.
+The only requirement before starting the `server-dev` container is to have [mongodb containers](#Mongo-db) already running.
 
 
 ##### Nginx
@@ -527,7 +527,7 @@ Once the account has been selected and password provided, our server handles the
 ### Email validation
 
 
-Once the [previous step](#Passport Google API) has passed successfully, server starts validation the email address.
+Once the [previous step](#Passport-Google-API) has passed successfully, server starts validation the email address.
 
     1. Email address has to be of certain domain (provided by the environment configuration)
     2. Other part of email (a.k.a. username) is being validated by the AuthUser model
