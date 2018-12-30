@@ -232,9 +232,10 @@ If you need to enter the running container and check the logs, or run some scrip
 That's it. There are plenty more operations that docker/docker-compose provide, which is not intention of this documentation.
 
 
-##### Mongo-db
+##### Mongo db
 
 First, go directly to mongodb directory that has the docker-compose.yaml file:
+
 ```sh
 cd docker/mongo-db
 ```
@@ -297,14 +298,120 @@ Additionally, you can run `docker ps` to see all the running docker containers, 
 
 ##### Server
 
+To create server containers, run `docker-compose up` from the root directory. This will start all defined services in the compose file.
+
+Instead of running all services, I recommend running only the one which you will actually use. 
+
+So, you can run:
+
+```sh
+docker-compose up -d server-dev
+```
+
+This will start the server container in the background. Since multiple ports are assigned (as stated in docker-compose.yaml) for `server-dev` service:
+
+```text
+    ports:
+      - "3001-3005:3001"
+``` 
+
+You can scale up to 5 server instances, like this:
+
+```sh
+docker-compose up -d --scale server-dev=5
+```
+
+Of course, this would mean that you would have to manually hit each server with corresponding port. For local testing, spawning a single server is enough.
+
+The only requirement before starting the `server-dev` container is to have [mongodb containers](#Mongo db) already running.
 
 
-##### Ngnix
+##### Nginx
 
+Nginx is used as a reverse-proxy and load balancer primarily on this project. Please run the root docker-compose file:
 
+```sh
+docker-compose up -d --build --scale server-dev=3
+```
+
+This will start spawn 3 development server containers, and nginx as well once the servers are up.
+
+Nginx configuration can be found in `docker/nginx` directory, and it's nginx.conf file includes both `sites-enabled` and `conf` directories.
+
+In `sites-enabled` you can find `dev` and `prod` files, each used for custom setup of proxy environments.
+
+This is a place where we can setup redirections, url-rewrites etc. The logic is this:
+
+    - Use service name with combination with exposed port to forward all the upcoming requests to
+      a given server_name that listtens on a certain port (currently dev.crowd-sourcing.com:80)
+    - This will then be resolved by Docker’s embedded DNS server
+    - DNS server will use a round robin implementation to resolve the DNS requests
+    - DNS requests are resolved based on the service name and distributed to the Docker containers.
+      
+Because the NGINX service will handle the requests and forward them to a server-dev service, we don’t need to map the 
+port 3001 from the server-dev services to a host machine port. This is where we can use "expose" instead of "ports".
+
+All that is left to do is setup local DNS file -> `/etc/hosts`. Without it, nginx will fail to lookup any servers because the request should come from a specific domain.
+
+Once you access `hosts` file, add these two lines of code:
+
+```text
+127.0.0.1       dev.crowd-sourcing.com
+127.0.0.1       crowd-sourcing.com
+```
+
+This is basically additional domain mapping. Once you enter `dev.crowd-sourcing.com`in the browser, the browser will look into `hosts` file and try to resolve the domain name locally.
+
+Since this domain name is set, it will look for the IP address (127.0.0.1) and try to fetch the resource. 
+
+Our nginx server should be up and running, and when it receives the request from `dev.crowd-sourcing.com`, it will know what to do and whom to forward it to!
+
+And that's basically it. 
 
 #### Cleanup - end
 
+Alright, so we got mongodb up and running, multiple server containers ready and nginx load-balancing and handling all http requests.
+
+Once we are done with testing, it is always a good practise to clean-up after ourselves.
+
+Start with removing all containers (running and exited)
+
+```sh
+docker rm -f $(docker ps -a -q)
+```
+
+This command will delete all containers. The command `docker ps -a -q` will return all existing container IDs and pass them to the rm command which will delete them.
+
+If you want to remove only stopped containers, call previous line without `-f` option.
+
+More info can be found [here](https://docs.docker.com/engine/reference/commandline/rm/)
+
+Then, remove all images:
+
+```sh
+docker rmi -f $(docker images -q)
+```
+
+This command will delete all images. The command `docker images -q` will return all existing images IDs and pass them to the rm command which will delete them.
+
+More info can be found [here](https://docs.docker.com/engine/reference/commandline/rmi)
+
+Now make sure that you got what you wanted, by running:
+
+```sh
+docker ps
+docker images
+```
+
+These should be empty now. Additionally, you can remove volumes created by mongodb services:
+
+```sh
+docker volume rm $(docker volume ls -q)
+```
+
+This will remove all volumes that are left after removing the corresponding containers. It will not remove the one that are being used.
+
+That's it, now everything is clean and we can start all over again!
 
 ### Install any GraphiQL GUI
 
