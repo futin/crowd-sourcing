@@ -1,17 +1,21 @@
 version: '3'
 services:
   ##
-  # NodeJs "local" server configuration, with custom environment variables
+  # NodeJs "dev" server configuration, with custom environment variables
   ##
-  server-local:
+  server-dev:
     restart: always
     build: .
     environment:
       - MONGO_SERVERS=mongo-rs0-1:27017,mongo-rs0-2:27017,mongo-rs0-3:27017
       - DEBUG=crowd-sourcing:*
-      - NODE_ENV=local
-    ports:
-      - "3001"
+      - NODE_ENV=dev
+    # map range of ports, so you can scale the app up to 5 replicas
+#    ports:
+#      - "3001-3005:3001"
+#     This can be used with nginx server, where server should be exposed only by inner network
+    expose:
+     - "3001"
     volumes:
       - ./lib:/usr/src/app/lib
     networks:
@@ -19,22 +23,28 @@ services:
   ##
   # NodeJs "prod" server configuration, with custom environment variables
   ##
-  server-prod:
-    restart: always
-    build: .
-    environment:
-      - MONGO_SERVERS=mongo-rs0-1:27017,mongo-rs0-2:27017,mongo-rs0-3:27017
-      - DEBUG=crowd-sourcing:*
-      - NODE_ENV=prod
-    ports:
-      - "5000"
-    volumes:
-      - ./lib:/usr/src/app/lib
-    networks:
-      - app_net
+#  server-prod:
+#    restart: always
+#    build: .
+#    environment:
+#      - MONGO_SERVERS=mongo-rs0-1:27017,mongo-rs0-2:27017,mongo-rs0-3:27017
+#      - DEBUG=crowd-sourcing:*
+#      - NODE_ENV=prod
+#    expose:
+#      - "5000"
+#    volumes:
+#      - ./lib:/usr/src/app/lib
+#    networks:
+#      - app_net
+  ##
+  # Nginx server, listening on port 80 and handling load-balancing and forwarding http requests.
+  ##
   nginx:
     restart: always
     build: ./docker/nginx
+    container_name: nginx
+    depends_on:
+      - server-dev
     ports:
       - "80:80"
       - "443:443"
