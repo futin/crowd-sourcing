@@ -52,6 +52,8 @@ Table of Contents
       * [GraphQL Queries](#graphql-queries)
       * [Notes on Code Style](#notes-on-code-style)
 
+Provided by an awesome script [gh-md-toc](https://github.com/ekalinin/github-markdown-toc)
+
 ## Install
 
 Please run the "install" command first:
