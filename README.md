@@ -9,6 +9,48 @@
     - MongoDB
     - Passport Google Auth
     - Docker
+    - Nginx
+
+Table of Contents
+=================
+
+   * [Crowd Sourcing](#crowd-sourcing)
+      * [Technology stack](#technology-stack)
+      * [Install](#install)
+      * [How to use](#how-to-use)
+         * [Local setup](#local-setup)
+            * [Install mongodb replicas](#install-mongodb-replicas)
+            * [Mongodb scripts](#mongodb-scripts)
+         * [Docker setup](#docker-setup)
+            * [Install Docker](#install-docker)
+            * [Cleanup](#cleanup)
+            * [Docker architecture](#docker-architecture)
+            * [Docker compose startup](#docker-compose-startup)
+               * [Docker-compose operations](#docker-compose-operations)
+               * [Mongo db](#mongo-db)
+                  * [mongo](#mongo)
+                  * [mongo-start](#mongo-start)
+                  * [mongo-rs-setup](#mongo-rs-setup)
+                  * [mongo-admin](#mongo-admin)
+                  * [networks](#networks)
+               * [Server](#server)
+               * [Nginx](#nginx)
+            * [Cleanup - end](#cleanup---end)
+         * [Install any GraphiQL GUI](#install-any-graphiql-gui)
+      * [The idea](#the-idea)
+      * [Models](#models)
+         * [AuthUser](#authuser)
+         * [User](#user)
+         * [Category](#category)
+         * [Nomination](#nomination)
+         * [Nominee](#nominee)
+      * [Authorization](#authorization)
+         * [Passport Google API](#passport-google-api)
+         * [Email validation](#email-validation)
+         * [JWT Access token](#jwt-access-token)
+         * [Authorized http request](#authorized-http-request)
+      * [GraphQL Queries](#graphql-queries)
+      * [Notes on Code Style](#notes-on-code-style)
 
 ## Install
 
