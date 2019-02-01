@@ -287,12 +287,18 @@ If you need to enter the running container and check the logs, or run some scrip
 That's it. There are plenty more operations that docker/docker-compose provide, which is not intention of this documentation.
 
 
-##### Mongo db
+##### Mongo db vs mongo db local
 
-First, go directly to mongodb directory that has the docker-compose.yaml file:
+There are two options here, which are apparently identical. 
+
+Mongo db should be used in combination with [Server](#Server) container, since they are running on the same network. 
+
+On the other hand, if it is required to run mongo db cluster locally, please use /mongo-db-local since it is being run on the "host" network, which fixes [this issue](https://github.com/Automattic/mongoose/issues/6793).
+
+so, go directly to mongodb directory that has the docker-compose.yaml file:
 
 ```sh
-cd docker/mongo-db
+cd docker/mongo-db || cd docker/mongo-db-local
 ```
 
 If you look into the docker-compose.yaml file, you will find multiple services. Lets start with the most simple ones.
