@@ -1,0 +1,49 @@
+version: '3.4'
+services:
+  ##
+  # 3 Mongo instances, all belong the the same replica set
+  ##
+  mongo-rs0-1:
+    image: "mongo-start"
+    container_name: mongo-rs0-1
+    build:
+      context: ./mongo-rs0-1
+      network: host
+    ports:
+      - "27017:27017"
+    volumes:
+      - ./mongo-rs0-1/data:/data/db
+    depends_on:
+      - "mongo-rs0-2"
+      - "mongo-rs0-3"
+  mongo-rs0-2:
+    image: "mongo-2"
+    container_name: mongo-rs0-2
+    build:
+      context: ./mongo-rs0-2
+      network: host
+    ports:
+      - "27018:27017"
+    volumes:
+      - ./mongo-rs0-2/data:/data/db
+  mongo-rs0-3:
+    image: "mongo-3"
+    container_name: mongo-rs0-3
+    build:
+      context: ./mongo-rs0-3
+      network: host
+    ports:
+      - "27019:27017"
+    volumes:
+      - ./mongo-rs0-3/data:/data/db
+  ##
+  # Create temp container which will setup the replica set configuration after the mongodb containers are up
+  # and running.
+  ##
+  mongo-rs-setup:
+    image: "mongo-rs-setup"
+    build:
+      context: ./setup
+      network: host
+    depends_on:
+      - "mongo-rs0-1"
