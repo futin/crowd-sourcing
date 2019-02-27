@@ -1,4 +1,4 @@
-FROM mongo
+FROM mongo:4.0
 
 # Workdir configs directory
 WORKDIR /user/src/configs

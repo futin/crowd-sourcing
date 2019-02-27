@@ -17,7 +17,7 @@ services:
     networks:
       - crowd_sourcing_net
   mongo-rs0-2:
-    image: "mongo"
+    image: "mongo:4.0"
     container_name: mongo-rs0-2
     command: --replSet rs0 --smallfiles --oplogSize 128
     expose:
@@ -27,7 +27,7 @@ services:
     networks:
       - crowd_sourcing_net
   mongo-rs0-3:
-    image: "mongo"
+    image: "mongo:4.0"
     container_name: mongo-rs0-3
     command: --replSet rs0 --smallfiles --oplogSize 128
     expose:
